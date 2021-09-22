@@ -38,7 +38,7 @@ const setupCml = async opts => {
       version !== 'latest' ? `@${version}` : ''
     }`
   );
-  await exec('cml --version').pipe(process.stdout);
+  console.log(await exec('cml --version'));
 };
 
 exports.exec = exec;

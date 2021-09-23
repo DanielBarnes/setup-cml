@@ -22,7 +22,7 @@ const setupCml = async opts => {
     try {
       sudoPath = await exec('which sudo');
     } catch (err) {
-      console.log('Failed find the sudo binary. Error:', err);
+      console.log('Failed find the sudo binary.', err);
       process.exit(1);
     }
   }
@@ -50,7 +50,7 @@ const setupCml = async opts => {
       `Targeted CML version: ${version}, received: ${installedVersion}`
     );
   } catch (err) {
-    console.log('Failed to parse the install version of CML. Error:', err);
+    console.log('Failed to parse the install version of CML.', err);
   }
 };
 

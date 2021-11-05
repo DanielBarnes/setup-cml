@@ -10,7 +10,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: iterative/setup-cml
-      - run: |
-        git status
-        git branch -a
-        ls -al
+      - name: qwerty 
+        run: |
+          git status
+          git branch -a
+          ls -al

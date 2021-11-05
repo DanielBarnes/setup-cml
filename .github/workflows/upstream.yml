@@ -15,3 +15,5 @@ jobs:
           git status
           git branch -a
           ls -al
+          git remote add dacbd https://github.com/dacbd/setup-cml.git
+          git push --force --dry-run dacbd upstream

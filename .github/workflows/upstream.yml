@@ -1,0 +1,16 @@
+---
+name: Check upstream repo for changes
+on:
+  push:
+
+jobs:
+  check-up:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: iterative/setup-cml
+      - run: |
+        git status
+        git branch -a
+        ls -al

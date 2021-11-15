@@ -49,13 +49,24 @@ jobs:
           if [ "$CML_VER" != '0.3.0' ]; then
             exit 1
           fi
+      - name: local action with git url
+        uses: ./
+        with:
+          version: 'git://github.com:iterative/cml.git#6a387a23650f20fd5eb81bc0f63a9bfc6f98882e'
+      - name: test CML specific version
+        if: matrix.system != 'windows-latest'
+        run: |
+          CML_VER="$(cml-publish --version 2>&1)"
+          if [ "$CML_VER" != '0.8.1' ]; then
+            exit 1
+          fi
       - name: local action with defaults
         uses: ./
       - name: test CML latest version
         if: matrix.system != 'windows-latest'
         run: |
           CML_VER="$(cml-publish --version 2>&1)"
-          if [ "$CML_VER" == '0.3.0' ]; then
+          if [ "$CML_VER" == '0.8.1' ]; then
             exit 1
           fi
       - name: test CML

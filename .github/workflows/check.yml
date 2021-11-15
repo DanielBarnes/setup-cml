@@ -47,6 +47,7 @@ jobs:
         run: |
           CML_VER="$(cml-publish --version 2>&1)"
           if [ "$CML_VER" != '0.3.0' ]; then
+            echo $CML_VER
             exit 1
           fi
       - name: local action with git url
@@ -58,6 +59,7 @@ jobs:
         run: |
           CML_VER="$(cml-publish --version 2>&1)"
           if [ "$CML_VER" != '0.8.1' ]; then
+            echo $CML_VER
             exit 1
           fi
       - name: local action with defaults
@@ -67,6 +69,7 @@ jobs:
         run: |
           CML_VER="$(cml-publish --version 2>&1)"
           if [ "$CML_VER" == '0.8.1' ]; then
+            echo $CML_VER
             exit 1
           fi
       - name: test CML

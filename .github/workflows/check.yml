@@ -6,9 +6,6 @@ on:
   workflow_dispatch:
 jobs:
   check:
-    defaults:
-      run:
-        shell: bash
     strategy:
       matrix:
         system:

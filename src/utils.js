@@ -16,9 +16,17 @@ const exec = async (command, opts) => {
 };
 
 const setupCml = async opts => {
-  const { version, sudo = true, override = '' } = opts;
-  const orFlag = override !== '';
+  const { version, sudo = true } = opts;
+  const overrideRegex = /^git(?:\+(?:ssh|https))?:\/\//;
+  const orFlag = overrideRegex.test(version);
   let sudoPath = '';
+
+  if (orFlag) {
+    console.log(
+      'A custom git install has been provided for version, CML may contain undocumented/unsupported changes'
+    );
+  }
+
   if (sudo) {
     try {
       sudoPath = await exec('which sudo');
@@ -29,27 +37,29 @@ const setupCml = async opts => {
   console.log('Uninstalling previous CML');
   await exec(
     `${sudoPath} npm uninstall -g canvas vega vega-cli vega-lite @dvcorg/cml ${
-      orFlag ? override : ''
+      orFlag ? version : ''
     }`
   );
 
-  console.log(`Installing CML version ${orFlag ? override : version}`);
+  console.log(`Installing CML version ${version}`);
   await exec('npm config set user 0');
   await exec(
     `${sudoPath} npm install -g canvas@2 vega@5 vega-cli@5 vega-lite@4 ${
       orFlag
-        ? override
+        ? version
         : `@dvcorg/cml${version !== 'latest' ? `@${version}` : ''}`
     }`
   );
 
   let installedVersion = '';
   try {
-    const json = await exec('npm list --json --global @dvcorg/cml');
+    const json = await exec(`${sudoPath} npm list --json --global @dvcorg/cml`);
     installedVersion = JSON.parse(json).dependencies['@dvcorg/cml'].version;
     console.log(
       `Targeted CML version: ${version}, received: ${installedVersion} ${
-        orFlag ? `but from overide at: ${override}` : ''
+        orFlag
+          ? `but from git source, this version could no longer be supported.`
+          : ''
       }`
     );
   } catch (err) {
